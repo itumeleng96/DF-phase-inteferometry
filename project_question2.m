@@ -5,12 +5,12 @@ snr=0;
 
 %----------------------------------------------------
 %3-antenna array elements using Non-harmonic spacing
-fc=6*10^9;
+fc=6*10^9;                             %6GHz,12GHz,18GHz
 lambda=(3*10^8)/(fc); 
 lambda_spacing = (3*10^8)/(12*10^9);
 num_elements=3;
 d1=lambda_spacing/2;                    %Antenna Spacing 1
-d2=(1)*lambda_spacing;                %Antenna Spacing 2
+d2=(1)*lambda_spacing;                  %Antenna Spacing 2
 
 %---------------------------------------------------
 %Signal generation with with Pulse and SNR
@@ -21,7 +21,7 @@ PW=0.1*10^-6 ;                  %Pulse width 0.05microseconds
 PRI=0.2*10^-6 ;                 %Pulse repetition interval 0.2microseconds
 fs = 40*10^9;                   %Sampling Frequency:40GHz
 dt= 1/fs;
-stopTime = 0.1*10^-6;           
+stopTime = 0.05*10^-6;           
 t =(0:dt:stopTime);             %Not sure about the stop time
 c= 3*10^8;
 
@@ -57,10 +57,10 @@ y3=A*sin(w*t+y_phi3);                                 %The recieved signal on re
 rms_azimuth=zeros(1,10);
 rms_elevation=zeros(1,10);
 for j = 1:10
-    aoa_azimuth=zeros(1,100);
-    aoa_elevation = zeros(1,100);
+    aoa_azimuth=zeros(1,1000);
+    aoa_elevation = zeros(1,1000);
     
-    for i = 1:100
+    for i = 1:1000
         %-------------------------------------------------------------------------------------
         %------ADD White Gaussian Noise to signals 
         %-----------------------------------------------------------------------------------
