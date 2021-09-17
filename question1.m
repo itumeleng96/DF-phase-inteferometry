@@ -21,7 +21,7 @@ PW=0.1*10^-6 ;                  %Pulse width 0.05microseconds
 PRI=0.2*10^-6 ;                 %Pulse repetition interval 0.2microseconds
 fs = 40*10^9;                   %Sampling Frequency:40GHz
 dt= 1/fs;
-stopTime = 0.05*10^-6;           
+stopTime = 0.1*10^-6;           
 t =(0:dt:stopTime);             %Not sure about the stop time
 c= 3*10^8;
 
@@ -56,11 +56,13 @@ y3=A*sin(w*t+y_phi3);                                 %The recieved signal on re
 
 rms_azimuth=zeros(1,10);
 rms_elevation=zeros(1,10);
+snr_array = zeros(1,10);
+
 for j = 1:10
-    aoa_azimuth=zeros(1,1000);
-    aoa_elevation = zeros(1,1000);
+    aoa_azimuth=zeros(1,100);
+    aoa_elevation = zeros(1,100);
     
-    for i = 1:1000
+    for i = 1:100
         %-------------------------------------------------------------------------------------
         %------ADD White Gaussian Noise to signals 
         %-----------------------------------------------------------------------------------
@@ -166,5 +168,20 @@ for j = 1:10
     end
     rms_azimuth(j)= rms(aoa_azimuth-azimuth_arr_angle);
     rms_elevation(j) = rms(aoa_elevation-elevation_arr_angle);
+    snr_array(j)=snr;
     snr=snr+2;
 end
+%Plot RMSE
+figure();
+plot(snr_array,rms_azimuth,'-s');
+title('RMSE vs SNR ');
+xlabel('SNR(dB)');
+ylabel('RMSE');
+legend('RMSE 30 degrees azimuth angle (6GHz)');
+
+figure();
+plot(snr_array,rms_elevation,'-s');
+title('RMSE vs SNR ');
+xlabel('SNR(dB)');
+ylabel('RMSE');
+legend('RMSE -30 degrees elevation angle (6GHz)');
